@@ -7,10 +7,10 @@ const { toBeEnabled } = require('@testing-library/jest-dom/matchers')
 exports.up = (knex) => {
   return knex.schema.createTable('credentials', (table) => {
     table.increments('hashKey').primary
-    table.string('userName')
+    table.string('username')
     table.string('password')
-    table.integer('sessionId')
-    table.integer('userId')
+    table.integer('session_id')
+    table.integer('user_id')
   })
 }
 

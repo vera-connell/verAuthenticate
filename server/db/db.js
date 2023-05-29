@@ -1,8 +1,7 @@
 const db = require('./connection')
 
-module.exports = {
-  getUser: getUser,
-  getUsers: getUsers,
+function sessionIdIsUnique(sessionId) {
+  return db('credentials').where('session_id', sessionId)
 }
 
 function getUsers() {
@@ -11,4 +10,10 @@ function getUsers() {
 
 function getUser(id) {
   return db('users').where('id', id).first()
+}
+
+module.exports = {
+  sessionIdIsUnique,
+  getUser,
+  getUsers,
 }
