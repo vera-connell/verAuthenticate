@@ -27,8 +27,9 @@ const authFuncs = require('../verAuthenticate-utils')
 //     })
 // })
 
-router.get('/', (req, res) => {
-  authFuncs.createSessionId()
+router.get('/', async (req, res) => {
+  const id = await authFuncs.createSessionId()
+  console.log(id)
   res.render('home')
 })
 
