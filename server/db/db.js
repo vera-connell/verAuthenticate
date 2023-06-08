@@ -12,8 +12,16 @@ function getUser(id) {
   return db('users').where('id', id).first()
 }
 
+function getUserAuth(username, password) {
+  return db('credentials')
+    .where({ username })
+    .where({ password })
+    .select('hash_key', 'user_id')
+}
+
 module.exports = {
   sessionIdIsUnique,
   getUser,
   getUsers,
+  getUserAuth,
 }
