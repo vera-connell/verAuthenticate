@@ -19,9 +19,16 @@ function getUserAuth(username, password) {
     .select('hash_key', 'user_id')
 }
 
+function postSessionId(userId, sessionId) {
+  return db('credentials')
+    .where('user_id', userId)
+    .update('session_id', sessionId, ['*'])
+}
+
 module.exports = {
   sessionIdIsUnique,
   getUser,
   getUsers,
   getUserAuth,
+  postSessionId,
 }

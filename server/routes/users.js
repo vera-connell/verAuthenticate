@@ -4,7 +4,6 @@ const db = require('../db/db')
 
 const router = express.Router()
 const authFuncs = require('../verAuthenticate-utils')
-const { use } = require('../server')
 
 //users/login/
 //takes a username and password from form inputs
@@ -50,19 +49,39 @@ router.get('/users/login', (req, res) => {
 
 router.post('/users/login', async (req, res) => {
   //Takes form data and checks login details
-
-  console.log(req.body)
+  // const userCreds = await db.getUserAuth(username, password)
   const { username, password } = req.body
-  try {
-    const userCreds = await db.getUserAuth(username, password)
-    console.log(userCreds)
-  } catch (err) {
-    console.log(err, 'db error')
-  }
+
+  const userCreds = await db.getUserAuth(username, password)
+
+  const { userId } = userCreds
+
+  const sessionId = await authFuncs.createSessionId()
+
+  console.log(sessionId)
+
+  const inserted = await db.postSessionId(userId, sessionId)
+
+  console.log(inserted)
+  // let userCreds
+  // try {
+  //   userCreds = await db.getUserAuth(username, password)
+  //   console.log(userCreds)
+  //   return userCreds
+  // } catch (err) {
+  //   console.log(err, 'db error')
+  // }
+  // const { hashKey, userId } = userCreds
+  // const sessionId = authFuncs.createSessionId()
+  // try {
+  //   console.log(sessionId)
+  //   const insertSessionId = await db.postSessionId(hashKey, userId)
+  //   console.log(insertSessionId)
+  // } catch (err) {
+  //   console.log(err, 'db error')
+  // }
 
   res.render('home')
-  // const userCreds = await db.getUserAuth(username, password)
-  // console.log(userCreds)
 
   //If valid, calls the keygen and mints a session id
   //sends it to the database and creates a cookie
